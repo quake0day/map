@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>GPA计算</title>
+<meta http-equiv="Content-Language" content="English" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<script src="facefiles/jquery.js" type="text/javascript"></script>
+<link rel="stylesheet" type="text/css" href="style.css" media="screen" />
+<link href="facefiles/facebox.css" media="screen" rel="stylesheet" type="text/css" />
+<script src="facefiles/facebox.js" type="text/javascript"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+      $('a[rel*=facebox]').facebox() 
+    })
+</script>
+
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){        //DOM的onload事件处理函数
+$('<div id="loading" style="display:none;"><h2>正在计算中......<img src = "images/ajax-loader.gif"></h2></div>').insertBefore('#gpa')
+.ajaxStart(function(){
+	$(this).show();
+}).ajaxStop(function(){
+	$(this).hide();
+});
+$("#button").click(function(){          //当按钮button被点击时的处理函数
+	if($("#userid").val() !='' && $("#passwd").val()){
+	$("#gpa").fadeOut();
+	$("#share").fadeOut();
+	$("#error").fadeOut();
+    postdata();                                      //button被点击时执行postdata函数
+}
+});
+
+
+});
+
+function postdata(){                             //提交数据函数
+$.ajax({                                                 //调用jquery的ajax方法
+    type: "POST",                                     //设置ajax方法提交数据的形式
+    url: "gpa.php",                                      
+    data: "userid="+$("#userid").val()+"&passwd="+$("#passwd").val(),    
+    success: function(msg){  
+	  if(msg == 2){$("#error").fadeIn();}
+	  else{
+	  $("#error").fadeOut();
+	  $("#tip").fadeOut();
+      $("#gpa > a").html(msg);
+      $("#gpa").fadeIn();
+      $("#share").fadeIn();
+	 }
+    }
+});
+}
+
+</script>
+
+<style type="text/css">
+<!--
+.a1 {
+	font-size: 12px;
+	color:#FFFFFF;
+	background-color:#85ACF7;
+
+}
+.a2{
+background-color:#85ACF7;
+BORDER: #999999 1px solid;
+}
+
+body,td,th {
+	font-size: 12px;
+}
+.STYLE1 {color: #85ACF7}
+-->
+</style>
+</head>
+<body>
+<div id="wrap">
+
+<div id="top"><div id="mydiv" style="display:none">
+该系统采用平均学分绩点(GPA, GradePointAverage)，算法采用我们学校统一的算法，也就是“北大算法”。<div id="cal" align="center">
+  <table width="200" border="1">
+    <tr>
+      <td>成绩</td>
+      <td>成绩等级</td>
+      <td>绩点</td>
+    </tr>
+    <tr>
+      <td>90-100</td>
+      <td>A</td>
+      <td>4.0</td>
+    </tr>
+    <tr>
+      <td>85-89</td>
+      <td>A-</td>
+      <td>3.7</td>
+    </tr>
+    <tr>
+      <td>82-84</td>
+      <td>B+</td>
+      <td>3.3</td>
+    </tr>
+    <tr>
+      <td>78-81</td>
+      <td>B</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <td>75-77</td>
+      <td>B-</td>
+      <td>2.7</td>
+    </tr>
+    <tr>
+      <td>72-74</td>
+      <td>C+</td>
+      <td>2.3</td>
+    </tr>
+    <tr>
+      <td>68-71</td>
+      <td>C</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>64-67</td>
+      <td>C-</td>
+      <td>1.5</td>
+    </tr>
+    <tr>
+      <td>60-63</td>
+      <td>D</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>60以下</td>
+      <td>F</td>
+      <td>0</td>
+    </tr>
+  </table>
+  <br />
+  <table width="200" border="1">
+    <tr>
+      <td>百分制</td>
+      <td>五级分制</td>
+      <td>折算百分制</td>
+    </tr>
+    <tr>
+      <td>90-100</td>
+      <td>优</td>
+      <td>95</td>
+    </tr>
+    <tr>
+      <td>80-89</td>
+      <td>良</td>
+      <td>85</td>
+    </tr>
+    <tr>
+      <td>70-79</td>
+      <td>中</td>
+      <td>75</td>
+    </tr>
+    <tr>
+      <td>60-69</td>
+      <td>及格</td>
+      <td>65</td>
+    </tr>
+    <tr>
+      <td>60以下</td>
+      <td>不及格</td>
+      <td>59</td>
+    </tr>
+  </table>
+</div>
+<br />
+课程学分绩点=绩点 * 学分数<br />
+GPA = 课程学分绩点总和 / 课程学分总和
+
+</div></div>
+
+<div id="content">
+
+<div class="header">
+<h1>农大本科生GPA自动计算系统 <a>(beta 1.4)</a></h1><div id="logo"></div>
+<h2>Automatic GPA calculate System</h2>
+</div>
+
+<div class="breadcrumbs">主页&middot; <a href="http://www.darlingtree.com/">关于作者</a>
+</div>
+
+<div class="middle">
+<div id="tip">因为学校服务器不稳定，速度和稳定性不可兼得。我决定放弃速度...谁有学校内的Linux服务器能否借用下?</div>
+<div id="gpa" style="display:none;">你的GPA是：<a></a>
+</div>
+<div id="share" style="display:none;">帮忙宣传下:) Thanks!&nbsp;&nbsp;<a href="javascript:void((function(s,d,e){if(/xiaonei\.com/.test(d.location))return;var%20f='http://share.xiaonei.com/share/buttonshare.do?link=',u=d.location,l=d.title,p=[e(u),'&title=',e(l)].join('');function%20a(){if(!window.open([f,p].join(''),'xnshare',['toolbar=0,status=0,resizable=1,width=626,height=436,left=',(s.width-626)/2,',top=',(s.height-436)/2].join('')))u.href=[f,p].join('');};if(/Firefox/.test(navigator.userAgent))setTimeout(a,0);else%20a();})(screen,document,encodeURIComponent));"><img border="0" alt="分享到校内" src="images/xiaonei.gif"/>分享到校内</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<a target="_blank" title="分享到开心网" onclick="try{pageTracker._trackPageview('/stat/topicToolsKaixin/');}catch(e){};" href="http://www.yingjiesheng.com/share.html?rel=kaixin&amp;url=http://www.darlingtree.com/gpa/&amp;title=农大本科生GPA自动计算系统"><img alt="分享到开心网" src="images/kaixin.png"/>分享到开心网</a>&nbsp;&nbsp;&nbsp;&nbsp;<a title="分享到豆瓣" onclick="try{pageTracker._trackPageview('/stat/topicToolsDouban/');}catch(e){}" href="http://www.yingjiesheng.com/share.html?rel=douban&amp;url=http://www.darlingtree.com/gpa/&amp;title=农大本科生GPA自动计算系统" target="_blank"><img alt="分享到豆瓣" src="images/douban.png"/>分享到豆瓣</a></div>
+<div id="error" style="display:none; width:500px;" ><h2>你输入的学号和密码不匹配，无法登录学校教务处系统，请检查。</h2></div>
+<div id ="main">
+<table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <td align="center" valign="middle"><table width="500" border="0" cellpadding="3" cellspacing="1" bgcolor="#333333">
+      <tr>
+        <td height="39" colspan="2" bgcolor="#85ACF7"><p style="padding-left:25px; font-size:15px; margin-top:5px;font-weight:bold; color:#FFFFFF">查询信息</p><div id="know"><a href="#mydiv" rel="facebox"><img src = "images/kaicon_005.gif">了解算法</a></div></td>
+      </tr>
+      <tr>
+        <td width="22%" height="26" align="center" bgcolor="#85ACF7" class="a1">成绩查询学号</td>
+        <td width="78%" bgcolor="#FFFFFF">
+          <input name="userid" class="input" id="userid" type="text" />
+      </tr>
+      <tr>
+        <td height="26" align="center" class="a1">成绩查询密码</td>
+        <td bgcolor="#FFFFFF">
+        <input name="passwd" class="input" id="passwd" type="password" />
+              </td>
+      </tr>
+      <tr>
+        <td height="26" colspan="2" align="center" bgcolor="#FFFFFF"><label>
+          <input type="submit" name="button" id="button" value="开始计算" />
+        </label></td>
+      </tr>
+    </table>
+
+   
+    </td>
+  </tr>
+</table>
+</div>
+</div>
+
+<br /><br />
+
+
+<div id="clear"></div>
+
+</div>
+
+<div id="bottom"></div>
+
+
+
+</div>
+
+<div id="footer">
+Design by quake0day</div>
+
+</body>
+</html>
