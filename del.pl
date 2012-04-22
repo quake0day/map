@@ -27,7 +27,7 @@ $start = 0;
 %delay_hash_table;
 
 #defin type to consider
-$type_to_consider = "cbr";
+$type_to_consider = "tcp";
 $layter_to_consider ="AGT";
 $send = "s";
 $rec = "r";
@@ -104,7 +104,7 @@ while($i<=$end){
         $avg = 0;
     }
     
-    #   print "Delay $j - $k : $avg \n";
+    print "Delay $j - $k : $avg \n";
     $i++;
 }
 $final_avg = $total / $total_count;

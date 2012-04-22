@@ -1,5 +1,7 @@
+# -*- coding: utf8 -*-
 import subprocess
 import os
+import sys
 import time
 from time import sleep
 import MySQLdb
@@ -19,6 +21,7 @@ from getHeight import formatPathInfo
 from getHeight import getHTT
 from getHeight import getHRR
 from millinton import cal_milliton
+from upyun import UpYun,md5,md5file
 
 MIN_POINT = 2
 def get_job():
@@ -49,6 +52,8 @@ def do_simulation(job):
         freq = int(job[0][11])
         pol = int(job[0][12])
         height = float(job[0][13])
+        height_r = float(job[0][14])
+        bandwidth = float(job[0][15])
     except Exception,e:
         print "ERROR- Point Num ERROR OR Lack LAT LNG"
         return 1
@@ -81,15 +86,16 @@ def do_simulation(job):
         return 1
     try:
         #hei1_mean = getHeight_mean(lat1,lng1,lat2,lng2)
-        HTT = getHTT(geo_height2)
-        HRR = getHRR(geo_height2)
-        #print "HTT:"+HTT,HRR
+        HTT = getHTT(geo_height2) + height
+        HRR = getHRR(geo_height2) + height_r
+        print "HTT:",HTT,HRR
     except Exception,e:
         print "error cal HTT HRR"
         mark_as_complete(job[0])
         return 1
     try:
-        res = cal_milliton(geo_height2,int(freq),int(pol),dis,HTT,HRR)
+        res =\
+        cal_milliton(geo_height2,int(freq),int(pol),dis,HTT,HRR,height,height_r)
         if res is not None:
             save_Et(res,job[0])
     except Exception,e:
@@ -110,7 +116,7 @@ def do_simulation(job):
                dmax {}\n\
                dstep 5\n\
                GO\
-               ".format(HTT,HRR,pol,freq,con1,dis)
+               ".format(str(HTT),str(HRR),pol,freq,con1,dis)
     fp.write(command1)
     fp.close()
     fp = open("inp2","w")
@@ -124,7 +130,7 @@ def do_simulation(job):
                dmax 1000\n\
                dstep 5\n\
                GO\
-               ".format(HTT,HRR,pol,freq,con1)
+               ".format(str(HTT),str(HRR),pol,freq,con1)
     fp.write(command)
     fp.close()
 #    except Exception,E:
@@ -175,7 +181,11 @@ def do_simulation(job):
         req0 = mark_as_complete(job[0])
         return 1
     try:
-        run_ns2 = run_ns2+str(PathLossExp)
+        bandwidth_ns = " " + str(bandwidth)+"e6"+ " "
+        freq_ns = " "+str(freq)+"e6"+" "
+        dis_ns = " "+str(dis)+" "
+        run_ns2 = run_ns2+str(PathLossExp)+bandwidth_ns+freq_ns+dis_ns
+        print run_ns2
         process = subprocess.Popen(run_ns2,shell=True)
         process.wait()
     except Exception,e:
@@ -222,6 +232,12 @@ def save_Et(Et,task):
 def upload_res():
     random_num = str(random.randrange(0,10001,2))
     try:
+		#u = UpYun('groundwave','quake0day','mZy0rJGP')
+		#data = open(os.getcwd()+"/out",'r')
+		#data_tr = open(os.getcwd()+"/simple.tr",'r')
+		#a = u.writeFile(random_num+".txt",data)
+		#b = u.writeFile("/tr/"+random_num+".txt",data_tr)
+		#print random_num
         shutil.copy2(os.getcwd()+"/out","/home/quake0day/www/res/"+random_num)
         shutil.copy2(os.getcwd()+"/simple.tr","/home/quake0day/www/tr/"+random_num)
     except Exception,e:

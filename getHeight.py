@@ -28,10 +28,10 @@ def formatPathInfo(path_info):
             
 
 def getHTT(geo_height):
-    return geo_height[0][2]
+    return float(geo_height[0][2])
 
 def getHRR(geo_height):
-    return geo_height[-1][2]
+    return float(geo_height[-1][2])
 
 #geo = formatPathInfo(getPathInfo("15"))
 #print geo

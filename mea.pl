@@ -26,7 +26,7 @@ $start = 0;
 %throughput_hash_table;
 
 #defin type to consider
-$type_to_consider = "cbr";
+$type_to_consider = "tcp";
 $layer_to_consider = "AGT";
 $send = "s";
 $rec = "r";
@@ -104,7 +104,7 @@ while($i<=$end){
     else{
         $avg = $total_throughput;
     }
-    #print "$j-$k:$avg \n";
+    print "$j-$k:$avg \n";
     $i++;
 }
 print "$avg\n";

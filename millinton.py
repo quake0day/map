@@ -10,8 +10,10 @@ import os
 #geo_info = getHeight.getPathInfo("41")
 #geo_info = getHeight.formatPathInfo(geo_info)
 
-def cal_milliton(geo_info,MFREQ,MIPOL,dis,HTT,HRR):
+def cal_milliton(geo_info,MFREQ,MIPOL,dis,HTT,HRR,height,height_r):
     conductivity = find_path_with_diff_conductivity(geo_info)
+    height = float(height)
+    height_r = float(height_r)
     #print len(conductivity)
     #print conductivity
     
@@ -41,8 +43,10 @@ def cal_milliton(geo_info,MFREQ,MIPOL,dis,HTT,HRR):
                     d[1] = reduce(lambda x,y:x+y,MDIST)
                 else:
                     d[1] = d[1] + MDIST[1]
-                HTT_HRR = [conductivity[i][0][2],conductivity[i+1][0][2]]
-                HTT_HRR_F = [conductivity[i+1][0][2],conductivity[i+2][0][2]]
+                HTT_HRR =\
+                [float(conductivity[i][0][2])+height,float(conductivity[i+1][0][2])+height_r]
+                HTT_HRR_F =\
+                [float(conductivity[i+1][0][2])+height,HRR]
                 h = [HTT_HRR,HTT_HRR_F]
                 EdB[j] = EdB[j] + call_gr(MIPOL,MFREQ,MEPSLON1,MSIGMA1,d[0],h[0])
                 EdB[j] = EdB[j] - call_gr(MIPOL,MFREQ,MEPSLON2,MSIGMA2,d[0],h[0])

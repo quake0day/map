@@ -73,8 +73,9 @@ Propagation/Shadowing2 set seed_ 1
 Phy/WirelessPhy set RXThresh_ 3.3e-8 
 Phy/WirelessPhy set CSThresh_ 3.3e-9
 # frequency
-Phy/WirelessPhy set freq_ 914e+6
+Phy/WirelessPhy set freq_ [lindex $argv 2]
 Phy/WirelessPhy set Pt_ 0.28183815
+Phy/WirelessPhy set bandwidth_ [lindex $argv 1]
 
 # transmit antenna gain
 Antenna/OmniAntenna set Gt_ 1.0
@@ -131,7 +132,7 @@ $node_(0) set Y_ 0.0
 $node_(0) set Z_ 0.0
 
 #$node_(1) set X_ 490.0
-$node_(1) set X_ 50.0
+$node_(1) set X_ [lindex $argv 3]
 $node_(1) set Y_ 0.0
 #$node_(1) set Y_ 285.0
 $node_(1) set Z_ 0.0
@@ -142,8 +143,8 @@ $node_(1) set Z_ 0.0
 #$node_(2) set Z_ 0.0
 
 # Generation of movements
-$ns at 10.0 "$node_(0) setdest 250.0 250.0 3.0"
-$ns at 15.0 "$node_(1) setdest 45.0 285.0 5.0"
+#$ns at 10.0 "$node_(0) setdest 250.0 250.0 3.0"
+#$ns at 15.0 "$node_(1) setdest 45.0 285.0 5.0"
 #$ns at 110.0 "$node_(0) setdest 480.0 300.0 5.0" 
 
 # Set a TCP connection between node_(0) and node_(1)
@@ -155,7 +156,7 @@ $ns attach-agent $node_(1) $sink
 $ns connect $tcp $sink
 set ftp [new Application/FTP]
 $ftp attach-agent $tcp
-$ns at 10.0 "$ftp start" 
+$ns at 0.0 "$ftp start" 
 
 # Printing the window size
 proc plotWindow {tcpSource file} {
