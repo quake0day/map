@@ -93,6 +93,7 @@ while(($key,$value) = each(%throughput_hash_table)){
 
 #cal the throughput based on time interval
 $i=0;
+print "[";
 while($i<=$end){
     $j = $granularity * $i;
     $k = $j + $granularity;
@@ -104,10 +105,16 @@ while($i<=$end){
     else{
         $avg = $total_throughput;
     }
-    print "$j-$k:$avg \n";
+    $avg=sprintf "%.4f",$avg;
+    if ($i != $end){
+    print "$avg,";
+}else{
+    print "$avg";
+}
     $i++;
 }
-print "$avg\n";
+#print "$avg\n";
+print "]";
 #finished,...
 close DATA;
 exit(0)

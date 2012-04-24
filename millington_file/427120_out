@@ -12,24 +12,23 @@
                          SCALE HEIGHT = 7.350  KM
 
                      GROUND CONSTANTS
-                         RELATIVE PERMITTIVITY =     0.005
-                         CONDUCTIVITY =8.5499D+00  SIEMENS/METRE
+                         RELATIVE PERMITTIVITY =     4.642
+                         CONDUCTIVITY =8.0000D-04  SIEMENS/METRE
 
                      VERTICAL POLARISATION
 
-                     MINIMUM DISTANCE =   111.493  KILOMETRES
-                     MAXIMUM DISTANCE =   112.493  KILOMETRES
+                     MINIMUM DISTANCE =   254.499  KILOMETRES
+                     MAXIMUM DISTANCE =   255.499  KILOMETRES
                      DSTEP            =    10.000  KILOMETRES
 
 
                      FREQUENCY =  900.000 MHZ
 
-                     TRANSMITTER HEIGHT =   363.4  METRES
-                     RECIEVER HEIGHT    =   738.8  METRES
+                     TRANSMITTER HEIGHT =    30.3  METRES
+                     RECIEVER HEIGHT    =   616.3  METRES
 
                      DISTANCE      FIELD STRENGTH     BASIC TRANSMISSION LOSS
                         KM            DB(UV/M)               DB           (G) 
-                        111.49         66.74               128.31
-                        112.49         64.61               130.44
                                                                           (R)
-                        112.49          0.00                 0.00
+                        254.50        -67.18               262.22
+                        255.50        -68.07               263.11

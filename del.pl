@@ -92,6 +92,7 @@ while(($key,$value) = each(%delay_hash_table)){
 }
 #print @delay_array_count;
 $i=0;
+print "[";
 while($i<=$end){
     $j = $granularity * $i;
     $k = $j + $granularity;
@@ -103,12 +104,19 @@ while($i<=$end){
     else{
         $avg = 0;
     }
+    $avg=sprintf "%.4f",$avg;
     
-    print "Delay $j - $k : $avg \n";
+    if($i != $end){
+        print "$avg,";}
+    else{
+        print "$avg";}
+
+    #print "$k,$avg\n";
     $i++;
 }
 $final_avg = $total / $total_count;
-print "$final_avg\n"; 
+#print "$final_avg\n"; 
+print "]";
 
 #finished,...
 close DATA;

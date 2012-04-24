@@ -1,10 +1,10 @@
-HTT 699.563903809 
-               HRR 621.004211426 
-               IPOLRN 2
+HTT 1130.22497559 
+               HRR 472.663604736 
+               IPOLRN 1
                FREQ 900 
                SIGMA 0.01 
                EPSLON 30 
                dmin 1
-               dmax 545.035799175
+               dmax 293.796617108
                dstep 5
                GO               

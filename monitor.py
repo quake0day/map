@@ -24,6 +24,7 @@ from millinton import cal_milliton
 from upyun import UpYun,md5,md5file
 
 MIN_POINT = 2
+TRACE_FILE_NAME = "simple.tr"
 def get_job():
     conn = connMysql()
     cur = conn.cursor()
@@ -56,6 +57,7 @@ def do_simulation(job):
         bandwidth = float(job[0][15])
     except Exception,e:
         print "ERROR- Point Num ERROR OR Lack LAT LNG"
+        mark_as_complete(job[0])
         return 1
     #save_res(show_res("out"),job[0])
     try:
@@ -149,30 +151,35 @@ def do_simulation(job):
         process1.wait()
     except Exception,E:
         print "Error process 1"
+        mark_as_complete(job[0])
         return 1
     try:
         process2 = subprocess.Popen(rungrwave_for_ns2,shell=True)
         process2.wait()
     except Exception,e:
         print "Error process 2"
+        mark_as_complete(job[0])
         return 1
     try:
         process3 = subprocess.Popen(run_get_KM,shell=True)
         process3.wait()
     except Exception,E:
         print "Error process 3"
+        mark_as_complete(job[0])
         return 1
     try:
         process4 = subprocess.Popen(run_get_BPL,shell=True)
         process4.wait()
     except Exception,E:
         print "Error process 4"
+        mark_as_complete(job[0])
         return 1
     try:
         DAT_KM = read_data("KM")
         DAT_BPL = read_data("BPL")[3:]
     except Exception,E:
         print "Error process read data"
+        mark_as_complete(job[0])
         return 1
     try:
         PathLossExp = getPathLossExp(DAT_KM,DAT_BPL)
@@ -183,22 +190,45 @@ def do_simulation(job):
     try:
         bandwidth_ns = " " + str(bandwidth)+"e6"+ " "
         freq_ns = " "+str(freq)+"e6"+" "
-        dis_ns = " "+str(dis)+" "
-        run_ns2 = run_ns2+str(PathLossExp)+bandwidth_ns+freq_ns+dis_ns
+        dis_ns = " "+str(dis*1000)+" "
+        run_ns2 = run_ns2+str(0.1)+bandwidth_ns+freq_ns+dis_ns
         print run_ns2
         process = subprocess.Popen(run_ns2,shell=True)
         process.wait()
     except Exception,e:
         print "run_ns2 error"
+        mark_as_complete(job[0])
+    try:
+        run_ana_throughput = "perl mea.pl "+TRACE_FILE_NAME
+        process_out =\
+        subprocess.Popen(run_ana_throughput,stdout=subprocess.PIPE,shell=True).communicate()
+    except Exception,e:
+        print "run_ana_throughput error"
+    print process_out[0]
+    print len(process_out[0].split(","))
+    save_res(process_out[0],"throughput",job[0])
+
+    try:
+        run_ana_del = "perl del.pl "+TRACE_FILE_NAME
+        process_out =\
+        subprocess.Popen(run_ana_del,stdout=subprocess.PIPE,shell=True).communicate()
+    except Exception,e:
+        print "run_ana_del error"
+        mark_as_complete(job[0])
+    print process_out[0]
+    print len(process_out[0].split(","))
+    save_res(process_out[0],"delay",job[0])
     
     try:
         random_num = upload_res()
     except Exception,e:
+        mark_as_complete(job[0])
         print "upload res error"
         return 1
     try:
-        save_res(random_num,job[0])
+        save_res(random_num,"res",job[0])
     except Exception,e:
+        mark_as_complete(job[0])
         print "save res error"
         return 1
     #K = subprocess.Popen(runget_result,shell=True,stdout=subprocess.PIPE)
@@ -210,10 +240,11 @@ def show_res(file):
     fout = open(file,"r")
     return fout.read()
 
-def save_res(data,task):
+def save_res(data,name,task):
     conn = connMysql()
     cur = conn.cursor()
-    sql = "UPDATE `gr`.`main` SET `res` = "+trim(data)+" where running_id= " +str(task[1])
+    sql = "UPDATE `gr`.`main` SET `"+name+"` = \""+data+"\" where running_id= " +str(task[1])
+    print sql
     cur.execute(sql)
     conn.commit()
     cur.close
@@ -243,6 +274,18 @@ def upload_res():
     except Exception,e:
         print "upload error"
     return random_num
+
+def save_res_plot(res,task):
+    conn = connMysql()
+    cur = conn.cursor()
+    sql = "UPDATE `gr`.`main` SET `throughput` =\""+res+"\" where running_id=\
+    "+str(task[1])
+    print sql
+    cur.execute(sql)
+    conn.commit()
+    cur.close()
+    conn.close()
+    return 0
 
 def mark_as_complete(task):
     conn = connMysql()

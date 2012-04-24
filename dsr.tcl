@@ -24,7 +24,7 @@ set val(ant)            Antenna/OmniAntenna        ;# antenna model
 set val(ifqlen)         50                         ;# max packet in ifq
 set val(nn)             2                          ;# number of mobilenodes
 set val(rp)             AODV                        ;# routing protocol
-set val(x)              500   			   ;# X dimension of topography
+set val(x)              [lindex $argv 3]   			   ;# X dimension of topography
 set val(y)              400   			   ;# Y dimension of topography  
 set val(stop)		    150			   ;# time of simulation end
 #set testscript [open testscript.sh r]
@@ -70,8 +70,8 @@ Propagation/Shadowing2 set dist0_ 1.0
 Propagation/Shadowing2 set validity_ 0.9
 Propagation/Shadowing2 set seed_ 1		
 # rx threshold
-Phy/WirelessPhy set RXThresh_ 3.3e-8 
-Phy/WirelessPhy set CSThresh_ 3.3e-9
+Phy/WirelessPhy set RXThresh_ 1.69063e-96
+Phy/WirelessPhy set CSThresh_ 3e-9
 # frequency
 Phy/WirelessPhy set freq_ [lindex $argv 2]
 Phy/WirelessPhy set Pt_ 0.28183815
@@ -127,7 +127,7 @@ create-god $val(nn)
 	}
 
 # Provide initial location of mobilenodes
-$node_(0) set X_ 5.0
+$node_(0) set X_ 0.0
 $node_(0) set Y_ 0.0
 $node_(0) set Z_ 0.0
 
