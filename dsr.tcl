@@ -23,7 +23,7 @@ set val(ll)             LL                         ;# link layer type
 set val(ant)            Antenna/OmniAntenna        ;# antenna model
 set val(ifqlen)         50                         ;# max packet in ifq
 set val(nn)             2                          ;# number of mobilenodes
-set val(rp)             AODV                        ;# routing protocol
+set val(rp)             DSDV                        ;# routing protocol
 set val(x)              [lindex $argv 3]   			   ;# X dimension of topography
 set val(y)              400   			   ;# Y dimension of topography  
 set val(stop)		    150			   ;# time of simulation end
@@ -74,8 +74,10 @@ Phy/WirelessPhy set RXThresh_ 1.69063e-96
 Phy/WirelessPhy set CSThresh_ 3e-9
 # frequency
 Phy/WirelessPhy set freq_ [lindex $argv 2]
-Phy/WirelessPhy set Pt_ 0.28183815
-Phy/WirelessPhy set bandwidth_ [lindex $argv 1]
+Phy/WirelessPhy set Pt_ 100W
+#Phy/WirelessPhy set bandwidth_ [lindex $argv 1]
+#Mac/802_11 set dataRate_ [lindex $argv 1]
+Mac/802_11 set bandwidth_ [lindex $argv 1]
 
 # transmit antenna gain
 Antenna/OmniAntenna set Gt_ 1.0
