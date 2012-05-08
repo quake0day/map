@@ -1,8 +1,8 @@
-HTT 273.580978394 
-               HRR 410.0 
+HTT 193.934356689 
+               HRR 56.8822975159 
                IPOLRN 1
-               FREQ 900 
-               SIGMA 5 
+               FREQ 1 
+               SIGMA 0.01 
                EPSLON 30 
                dmin 1
                dmax 1000

@@ -75,14 +75,14 @@ Phy/WirelessPhy set CSThresh_ 3e-9
 # frequency
 Phy/WirelessPhy set freq_ [lindex $argv 2]
 Phy/WirelessPhy set Pt_ 100W
-#Phy/WirelessPhy set bandwidth_ [lindex $argv 1]
+Phy/WirelessPhy set bandwidth_ [lindex $argv 1]
 #Mac/802_11 set dataRate_ [lindex $argv 1]
-Mac/802_11 set bandwidth_ [lindex $argv 1]
+#Mac/802_11 set bandwidth_ [lindex $argv 1]
 
 # transmit antenna gain
-Antenna/OmniAntenna set Gt_ 1.0
+Antenna/OmniAntenna set Gt_ 3.0
 # receive antenna gain
-Antenna/OmniAntenna set Gr_ 1.0
+Antenna/OmniAntenna set Gr_ 3.0
 # system loss
 Phy/WirelessPhy set L_ 1.0
 

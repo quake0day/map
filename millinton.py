@@ -55,7 +55,7 @@ def cal_milliton(geo_info,MFREQ,MIPOL,dis,HTT,HRR,height,height_r):
             conductivity.reverse()
             j +=1
         Et = (EdB[0] + EdB[1]) /2
-        #print Et
+        print str(Et)+"=("+str(EdB[0])+"+"+str(EdB[1])+")/2"
         return Et
     elif len(conductivity) == 2: # only one conductivity
         MSIGMA = conductivity[0][1]
@@ -69,7 +69,7 @@ def homo_path(dis,HTT,HRR,MIPOL,MFREQ,MSIGMA):
     h = [HTT,HRR]
     MEPSLON = cal_MEPSLON(MSIGMA,MFREQ)
     Et = call_gr(MIPOL,MFREQ,MEPSLON,MSIGMA,dis,h)
-    #print Et
+    print Et
     return Et
 
 # ITU Report 879-1 indicates that an empirical equation relating permittivity to
@@ -130,7 +130,7 @@ def call_gr(MIPOL,MFREQ,MEPSLON,MSIGMA,MDIST,h):
 
     rungrwave = os.getcwd() + "/gr <"+os.getcwd()+"/millington_file/"+filename+\
             " > "+os.getcwd()+"/millington_file/"+filename+"_out"
-    #print rungrwave
+   # print rungrwave
     try:
         process_rungrwave = subprocess.Popen(rungrwave,shell=True)
         process_rungrwave.wait()
@@ -147,6 +147,7 @@ def call_gr(MIPOL,MFREQ,MEPSLON,MSIGMA,MDIST,h):
     if process_runperl_output is not " ":
         return_Edb = process_runperl_output[0].split("\n")[0]
         try:
+            print return_Edb
             return float(return_Edb)
         except Exception,e:
             return_Edb = 0

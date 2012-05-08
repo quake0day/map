@@ -188,7 +188,7 @@ def do_simulation(job):
         req0 = mark_as_complete(job[0])
         return 1
     try:
-        bandwidth_ns = " " + str(bandwidth)+"e6"+ " "
+        bandwidth_ns = " " + str(bandwidth)+"bps"+ " "
         freq_ns = " "+str(freq)+"e6"+" "
         dis_ns = " "+str(dis*1000)+" "
         run_ns2 = run_ns2+str(0.1)+bandwidth_ns+freq_ns+dis_ns
