@@ -55,7 +55,7 @@ def cal_milliton(geo_info,MFREQ,MIPOL,dis,HTT,HRR,height,height_r):
             conductivity.reverse()
             j +=1
         Et = (EdB[0] + EdB[1]) /2
-        print str(Et)+"=("+str(EdB[0])+"+"+str(EdB[1])+")/2"
+    #    print str(Et)+"=("+str(EdB[0])+"+"+str(EdB[1])+")/2"
         return Et
     elif len(conductivity) == 2: # only one conductivity
         MSIGMA = conductivity[0][1]

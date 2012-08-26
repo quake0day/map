@@ -15,21 +15,18 @@
                          RELATIVE PERMITTIVITY =    10.772
                          CONDUCTIVITY =1.0000D-02  SIEMENS/METRE
 
-                     VERTICAL POLARISATION
-
-                     MINIMUM DISTANCE =    75.747  KILOMETRES
-                     MAXIMUM DISTANCE =    76.747  KILOMETRES
+                     MINIMUM DISTANCE =   344.934  KILOMETRES
+                     MAXIMUM DISTANCE =   345.934  KILOMETRES
                      DSTEP            =    10.000  KILOMETRES
 
 
-                     FREQUENCY =  900.000 MHZ
+                     FREQUENCY =    1.000 MHZ
 
-                     TRANSMITTER HEIGHT =   516.8  METRES
-                     RECIEVER HEIGHT    =   520.3  METRES
+                     TRANSMITTER HEIGHT =   279.2  METRES
+                     RECIEVER HEIGHT    =   517.3  METRES
 
                      DISTANCE      FIELD STRENGTH     BASIC TRANSMISSION LOSS
-                        KM            DB(UV/M)               DB           (G) 
-                         75.75         54.45               140.60
-                         76.75         69.33               125.72
+                        KM            DB(UV/M)               DB           (F) 
                                                                           (R)
-                         76.75          0.00                 0.00
+                        344.93          3.98               131.94
+                        345.93          3.87               132.05

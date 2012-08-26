@@ -11,6 +11,7 @@
 #=============================================================================
 '''
 import Image
+import math
 
 LAT_SW = -47.27
 LAT_NE = -34.107
@@ -94,6 +95,31 @@ def getConductivity_mat(data):
 def getConductivity(lat,lng):
     return convert(getConductivity_c(float(lat),float(lng)))
 
+
+
+def loadSedmapDat(lat,lng):
+# Change lat lng from [-90,90] [-180,180] into [0,180] [0,360]
+    lat_C = -(lat - 90 )
+    lng_C = lng + 180
+#Read file
+    file = open("./data/sedmap.dat", "r")
+    content = file.read().split("\r")
+    file.close()
+# Create data as latxlng matrix
+    data = [x.strip().split("   ") for x in content]
+# Change data to num
+    #return eval(data[int(lat_C)][int(lng_C)])
+    return 1/float(eval(data[int(lat_C)][int(lng_C)]))
+
+def loadSedmapDat_mat(data):
+    conductivity_mat = []
+    for item in data:
+        lat = item[0]
+        lng = item[1]
+        conductivity_mat.append(loadSedmapDat(lat,lng))
+    return conductivity_mat
+
+print loadSedmapDat(-45,171.23123)
 
 #print getConductivity(-39.54641191968671,174.0234375)
 #print getConductivity(-39.50404070558415,174.0673828125)

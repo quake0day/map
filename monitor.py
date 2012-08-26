@@ -44,13 +44,14 @@ def split_job(dataset):
 
 def do_simulation(job):
     # for DEBUG
+    print job[0][4]
     try:
         running_id = job[0][1]
         lat1 = job[0][2]
         lat2 = job[0][4]
         lng1 = job[0][3]
         lng2 = job[0][5]
-        freq = int(job[0][11])
+        freq = float(job[0][11])
         pol = int(job[0][12])
         height = float(job[0][13])
         height_r = float(job[0][14])

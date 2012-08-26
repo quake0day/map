@@ -1,31 +1,44 @@
 import MySQLdb
 import re
 from conn import connMysql
+from getelevation import getGoogleElevationData
 
-def getPathInfo(running_id):
-    conn = connMysql()
-    cur = conn.cursor()
-    sql = "select path_info FROM `main` where `running_id` ="+str(running_id)+\
-            " order by id desc"
-    cur.execute(sql)
-    path_info = cur.fetchone()
-    cur.close()
-    conn.close()
-    return path_info
+#def getPathInfo(running_id):
+#    conn = connMysql()
+#    cur = conn.cursor()
+#    sql = "select path_info FROM `main` where `running_id` ="+str(running_id)+\
+#            " order by id desc"
+#    cur.execute(sql)
+#    path_info = cur.fetchone()
+#    cur.close()
+#    conn.close()
+#    return path_info
+#
+def getPathInfo(lat1,lng1,lat2,lng2):
+###### Change HERE!!!!!!!!!!!!!!
+    startStr = str(lat1)+","+str(lng1)
+    endStr = str(lat2)+","+str(lng2)
+    pathStr = startStr + "|" + endStr
+    data = getGoogleElevationData(pathStr)
+    return data
+
+
+
+
 
 def formatPathInfo(path_info):
 #    print path_info
-    data = path_info[0]
-    data1 = data.split("(")
-    geo_height = []
-    for item in data1:
-        if item != "":
-            latlng = item.split("),")[0].split(",")
-            height = item.split("),")[-1].split(",")
-            dataset = [latlng[0],latlng[1],height[0]]
-            geo_height.append(dataset)
-    return geo_height
+    geo_dataset = []
+    for resultset in path_info['results']:
+        dataset = []
+        dataset.append(resultset["location"]['lat'])
+        dataset.append(resultset["location"]['lng'])
+        dataset.append(resultset['elevation'])
+        geo_dataset.append(dataset)
+        
+    return geo_dataset
             
+#@formatPathInfo(getpathinfo(90,-118,50,-116))
 
 def getHTT(geo_height):
     return float(geo_height[0][2])
